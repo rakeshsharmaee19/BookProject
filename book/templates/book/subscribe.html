@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/book/review.css">
+</head>
+
+<body>
+    <Section class="container">
+        <div class="main_border" style="text-align: left;">
+         <div class="flow">
+            <h1 style="text-align: center;">LITReview</h1>
+            <ul>
+                <li><a href="">Flow</a></li>
+                <li><a href="">Posts</a></li>
+                <li><a href="">Subscription Log Out</a></li>
+            </ul>
+         </div>
+         <div style="text-align: center; max-width: 900px; margin: 0 auto;">
+            <h3>Follow other user</h3>
+            <div style="display: flex; gap: 20px; margin-bottom: 50px; justify-content: center;">
+                <input type="text" placeholder="username">
+                <a href="" style="height: 14px;">send</a>
+            </div>
+            <form class="search-wrapper cf">
+                <h3 style="text-align: center;">Subscription</h3>
+               <div style="position: relative;">
+                <input type="text" placeholder="Enter your email..." required style="box-shadow: none">
+                <button type="submit">Unsubscribe</button>
+               </div>
+               <div style="position: relative;">
+                <input type="text" placeholder="Enter your email..." required style="box-shadow: none">
+                <button type="submit">Unsubscribe</button>
+               </div>
+               <div style="position: relative;">
+                <input type="text" placeholder="Enter your email..." required style="box-shadow: none">
+                <button type="submit">Unsubscribe</button>
+               </div>
+            </form>
+            <form class="search-wrapper cf">
+                <h3 style="text-align: center;">Subscription</h3>
+               <div style="position: relative;">
+                <input type="text" placeholder="Enter your email..." required style="box-shadow: none">
+                <button type="submit">Unsubscribe</button>
+               </div>
+               <div style="position: relative;">
+                <input type="text" placeholder="Enter your email..." required style="box-shadow: none">
+                <button type="submit">Unsubscribe</button>
+               </div>
+               <div style="position: relative;">
+                <input type="text" placeholder="Enter your email..." required style="box-shadow: none">
+                <button type="submit">Unsubscribe</button>
+               </div>
+            </form>
+         </div>
+
+
+
+        </div>
+    </Section>
+    <script src="constant.js"></script>
+    <script>
+        // async function logout(){
+        //     let authToken = localStorage.getItem('authToken')
+        // }
+        async function performInitialGetCall() {
+            console.log(Host)
+            let authToken = localStorage.getItem('authToken')
+            try {
+                // Make a GET request using fetch
+
+
+                var myHeaders = new Headers();
+                myHeaders.append("Authorization", "Token e772bcacb3428a1b1160f631a80c8c1893ee2e8d");
+
+                var requestOptions = {
+                    method: 'GET',
+                    headers: myHeaders,
+                    redirect: 'follow'
+                };
+
+                fetch("https://549d-182-79-123-254.ngrok-free.app/subscribe/subscriber/", requestOptions)
+                    .then(response => response.text())
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+
+                // const response = await fetch(`${Host}subscribe/subscriber/`, {
+                //     method: "GET",
+                //     headers: {
+                //         // 'Content-Type': 'application/json',
+                //         'Authorization': `Token ${authToken}`,
+                //     },
+                // });
+
+                // // Check if the response is successful (status code 2xx)
+                // if (response.status === 200) {
+                //     console.log(response)
+                //     const contentType = response.headers.get('content-type')
+                //     console.log(contentType)
+                //     const data = await response.text();
+                //     // Process the data as needed
+                //     console.log('Initial GET call successful:', data);
+                // } else {
+                //     console.error('Error during initial GET call:', response.statusText);
+                // }
+            } catch (error) {
+                console.error('Error during initial GET call:', error);
+            }
+        }
+
+        // Event listener for the DOMContentLoaded event
+        document.addEventListener('DOMContentLoaded', async function () {
+            // Call the async function when the DOM content is fully loaded
+            await performInitialGetCall();
+        });
+        function searchUser() {
+            let authToken = localStorage.getItem('authToken')
+            if (authToken) {
+                try {
+                    let searchParam = document.getElementById('serchInput').value
+                    fetch(`${Host}subscribe/`, {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Token ${authToken}`
+                        },
+                        body: JSON.stringify({
+                            followed_user: searchParam
+                        }),
+                    }).then(response => {
+                        // Parse the response JSON
+                        return response.json();
+                    }).then(data => {
+                        console.log(data, "data")
+                        if (data.success === false) {
+                            alert(data.message)
+                        }
+                    })
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            else {
+                alert("You are not logged in")
+            }
+        }
+    </script>
+</body>
+
+</html>

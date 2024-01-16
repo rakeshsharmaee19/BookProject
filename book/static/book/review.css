@@ -1,0 +1,48 @@
+.main_div{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.header{
+    border: 2px solid black;
+    justify-content: center;
+    display: flex;
+}
+.span1{
+    text-align: right;
+    display: block;
+    width: 40%;
+    align-self: center;
+
+}
+
+.span2, .span3,.span4{
+    display: block;
+    width: 15%;
+    font-size: 14px;
+    align-self: center;
+}
+
+.input_form{
+    display: flex;
+    width: 100%;
+    height: 50px;
+    justify-content:space-around;
+}
+
+.input_form > input{
+    width: 70%;
+    text-align: center;
+
+}
+.input_form > button{
+    align-self: center;
+    width: 20%;
+    height: 40px;
+    border-radius: 10px;
+}
+
+p{
+    text-align: center;
+}

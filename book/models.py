@@ -25,7 +25,7 @@ class ModelMeta(models.Model):
 
 
 class UserFollows(ModelMeta):
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='following')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='following')
     followed_user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='followed_by')
 
     class Meta:
@@ -44,7 +44,7 @@ class Ticket(ModelMeta):
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=2048, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    image = models.ImageField(null=True, blank=True, upload_to='')
+    image = models.ImageField(null=True, blank=True, upload_to='images/', default=None)
 
     class Meta:
         ordering = ('-created_date',)
@@ -59,7 +59,7 @@ class Ticket(ModelMeta):
 class Review(ModelMeta):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    rating = models.SmallIntegerField(max_length=1024, validators=[value_validator])
+    rating = models.SmallIntegerField(validators=[value_validator])
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     headline = models.CharField(max_length=128)
     body = models.TextField(max_length=8192)
@@ -73,15 +73,3 @@ class Review(ModelMeta):
     def __str__(self):
         return f'{self.user} {self.ticket} {self.rating}'
 
-
-class OTP(ModelMeta):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    otp = models.CharField(max_length=6)
-
-    class Meta:
-        db_table = 'otp'
-        verbose_name = 'OTP'
-        verbose_name_plural = 'OTPs'
-
-    def __str__(self):
-        return f'{self.user} {self.otp}'
